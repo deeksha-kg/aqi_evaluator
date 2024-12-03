@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AQI Prediction</title>
+    <script>
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const response = await fetch(event.target.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = `AQI Category: ${result.AQI_Category}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Predict Air Quality Index (AQI)</h1>
+    <form method="POST" action="/" onsubmit="handleFormSubmit(event)">
+        {% csrf_token %}
+        <label for="PM2.5">PM2.5:</label><br>
+        <input type="number" id="PM2.5" name="PM2.5" step="0.01" required><br>
+        <label for="PM10">PM10:</label><br>
+        <input type="number" id="PM10" name="PM10" step="0.01" required><br>
+        <label for="NO2">NO2:</label><br>
+        <input type="number" id="NO2" name="NO2" step="0.01" required><br>
+        <label for="CO">CO:</label><br>
+        <input type="number" id="CO" name="CO" step="0.01" required><br>
+        <label for="O3">O3:</label><br>
+        <input type="number" id="O3" name="O3" step="0.01" required><br>
+        <label for="SO2">SO2:</label><br>
+        <input type="number" id="SO2" name="SO2" step="0.01" required><br>
+        <label for="NH3">NH3:</label><br>
+        <input type="number" id="NH3" name="NH3" step="0.01" required><br><br>
+        <input type="submit" value="Predict">
+    </form>
+    <div id="result"></div>
+</body>
+</html>
+
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AQI Prediction</title>
+</head>
+<body>
+    <h1>Predict Air Quality Index (AQI)</h1>
+    <form method="POST" action="/predict/">
+        {% csrf_token %}
+        <label for="PM2.5">PM2.5:</label><br>
+        <input type="number" id="PM2.5" name="PM2.5" step="0.01"><br>
+        <label for="PM10">PM10:</label><br>
+        <input type="number" id="PM10" name="PM10" step="0.01"><br>
+        <label for="NO2">NO2:</label><br>
+        <input type="number" id="NO2" name="NO2" step="0.01"><br>
+        <label for="CO">CO:</label><br>
+        <input type="number" id="CO" name="CO" step="0.01"><br>
+        <label for="O3">O3:</label><br>
+        <input type="number" id="O3" name="O3" step="0.01"><br>
+        <label for="SO2">SO2:</label><br>
+        <input type="number" id="SO2" name="SO2" step="0.01"><br>
+        <label for="NH3">NH3:</label><br>
+        <input type="number" id="NH3" name="NH3" step="0.01"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html> {% endcomment %}
